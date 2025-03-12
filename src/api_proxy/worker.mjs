@@ -65,7 +65,7 @@ export default {
       return errHandler(err);
     }
      return response;
-};
+}
 
 class HttpError extends Error {
   constructor(message, status) {
