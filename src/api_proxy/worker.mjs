@@ -3,10 +3,28 @@
 //MIT License : https://github.com/PublicAffairs/openai-gemini/blob/main/LICENSE
 
 import { Buffer } from "node:buffer";
-
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "https://lively-lily-f42e1c.netlify.app", // 改为你的 Netlify 域名
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization"
+};
 export default {
   async fetch (request) {
+    // ======== 处理预检请求（OPTIONS） ========
     if (request.method === "OPTIONS") {
+      return new Response(null, { headers: CORS_HEADERS });
+    }
+		const url = new URL(request.url);
+    const path = url.pathname; // 获取路径（如 /*）
+		let data;
+ // 示例：根据路径返回不同内容
+    if (path === "/*") {
+      data = { message: "这是数据接口", path: path };
+    } else {
+      data = { message: "默认响应", path: path };
+    }
+		const response = new Response(JSON.stringify(data)
+		if (request.method === "OPTIONS") {
       return handleOPTIONS();
     }
     const errHandler = (err) => {
@@ -38,7 +56,11 @@ export default {
         default:
           throw new HttpError("404 Not Found", 404);
       }
-    } catch (err) {
+    }
+		Object.entries(CORS_HEADERS).forEach(([key, value]) => {
+      response.headers.set(key, value);
+    });
+		catch (err) {
       return errHandler(err);
     }
   }
