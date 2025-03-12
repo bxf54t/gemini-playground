@@ -56,13 +56,15 @@ export default {
         default:
           throw new HttpError("404 Not Found", 404);
       }
+	Object.entries(CORS_HEADERS).forEach(([key, value]) => {
+      	  response.headers.set(key, value);
+	});
     }
-		Object.entries(CORS_HEADERS).forEach(([key, value]) => {
-      response.headers.set(key, value);
-    });
+
 		catch (err) {
       return errHandler(err);
     }
+     return response;
 };
 
 class HttpError extends Error {
