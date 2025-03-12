@@ -23,7 +23,7 @@ export default {
     } else {
       data = { message: "默认响应", path: path };
     }
-		const response = new Response(JSON.stringify(data)
+		const response = new Response(JSON.stringify(data))
 		if (request.method === "OPTIONS") {
       return handleOPTIONS();
     }
@@ -63,7 +63,6 @@ export default {
 		catch (err) {
       return errHandler(err);
     }
-  }
 };
 
 class HttpError extends Error {
